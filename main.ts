@@ -85,6 +85,7 @@ horizontal = "right"
 tiles.setTilemap(tilemap`level2`)
 scene.setBackgroundColor(9)
 playerSprite = sprites.create(assets.image`characterright0`, SpriteKind.Player)
+playerSprite.sayText("I need to recycle this bottle", 2000, false)
 tiles.placeOnTile(playerSprite, tiles.getTileLocation(1, 15))
 scene.cameraFollowSprite(playerSprite)
 playerSprite.ay = 500
