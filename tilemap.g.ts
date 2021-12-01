@@ -38,6 +38,12 @@ namespace myTiles {
     export const tile19 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile8 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile7 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile20 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile22 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
@@ -61,7 +67,7 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `, [myTiles.transparency16,sprites.skillmap.islandTile6,sprites.skillmap.islandTile7,sprites.skillmap.islandTile0,sprites.skillmap.islandTile1,sprites.skillmap.islandTile2], TileScale.Sixteen);
             case "level2":
-            case "level2":return tiles.createTilemap(hex`1000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000020202020200000000000000000000000202020202000000000000000000000002020202020000000500000000000000020202020200050006000000000000000202020202030804070000000001000002020202020000000000000000000000`, img`
+            case "level2":return tiles.createTilemap(hex`100010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000a000000020202020200000000000000000a00000202020202000000000000000000000002020202020000000a000000050000000202020202000000000000000900000002020202020304040b0000070901000002020202020000000000080609000000`, img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -71,14 +77,14 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . 2 . . . 
+. . . . . . . . . . . . . 2 . . 
 . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . 2 . . . . . . . 
-. . . . . . 2 . 2 . . . . . . . 
-. . . . . 2 2 2 2 . . . . 2 . . 
-. . . . . . . . . . . . . . . . 
-`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile6,myTiles.tile10,myTiles.tile3,myTiles.tile4,myTiles.tile13,myTiles.tile16], TileScale.Sixteen);
+. . . . . . . . 2 . . . 2 . . . 
+. . . . . . . . . . . . 2 . . . 
+. . . . . 2 2 2 2 . . . 2 . . . 
+. . . . . . . . . . . 2 2 . . . 
+`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile6,myTiles.tile10,myTiles.tile3,myTiles.tile8,myTiles.tile7,myTiles.tile20,myTiles.tile4,myTiles.tile5,myTiles.tile11], TileScale.Sixteen);
         }
         return null;
     })
@@ -122,6 +128,12 @@ namespace myTiles {
             case "tile19":return tile19;
             case "myTile6":
             case "tile8":return tile8;
+            case "myTile5":
+            case "tile7":return tile7;
+            case "myTile18":
+            case "tile20":return tile20;
+            case "myTile20":
+            case "tile22":return tile22;
         }
         return null;
     })

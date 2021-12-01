@@ -1,3 +1,122 @@
+namespace SpriteKind {
+    export const effect = SpriteKind.create()
+}
+function jumping (sprite: Sprite) {
+    playerSprite.vy = -200
+    canJump = false
+    jumpEffect = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 1 . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . 1 . 
+        . . . 1 1 1 . . . . 1 1 1 . . . 
+        . 1 . 1 . . . . . . . . 1 . . . 
+        . . . . 1 1 1 1 1 1 1 1 . . . . 
+        . . . . . . . . . . . . . 1 . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.effect)
+    jumpEffect.setPosition(sprite.x, sprite.y + 6)
+    animation.runImageAnimation(
+    jumpEffect,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 1 1 . . . . 1 1 . . . . 
+        . . . . 1 1 1 . . 1 1 1 . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 1 1 . . . . . . 1 1 . . . 
+        . . 1 1 1 . . . . . . 1 1 1 . . 
+        . . 1 1 1 1 . . . . 1 1 1 1 . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . 1 1 . . . . . . . . . . 1 1 . 
+        1 1 1 . . . . . . . . . . 1 1 1 
+        1 1 1 1 . . . . . . . . 1 1 1 1 
+        . 1 1 1 1 . . . . . . 1 1 1 1 . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . 1 . . 
+        1 . . . . . . . . . . . . . . . 
+        . 1 1 . . . . . . . . . . 1 1 . 
+        1 1 1 . . . . . . . . . . 1 1 1 
+        1 1 . . . . . . . . . . . . 1 1 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . 1 . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . 1 . . 
+        1 . . 1 . . . . . . . . . . . . 
+        . . . . . . . . . . . . 1 . . 1 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    100,
+    false
+    )
+    pause(500)
+    jumpEffect.destroy()
+}
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     up = true
 })
@@ -62,8 +181,8 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (playerSprite.isHittingTile(CollisionDirection.Bottom)) {
-        playerSprite.vy = -200
+    if (cyoteTimer > 0 && canJump == true) {
+        jumping(playerSprite)
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -76,17 +195,21 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
 })
 let windspeed = 0
+let cyoteTimer = 0
 let projectile: Sprite = null
 let down = false
 let up = false
+let jumpEffect: Sprite = null
 let playerSprite: Sprite = null
 let horizontal = ""
+let canJump = false
+canJump = true
 horizontal = "right"
 tiles.setTilemap(tilemap`level2`)
 scene.setBackgroundColor(9)
 playerSprite = sprites.create(assets.image`characterright0`, SpriteKind.Player)
-playerSprite.sayText("I need to recycle this bottle", 2000, false)
 tiles.placeOnTile(playerSprite, tiles.getTileLocation(1, 15))
+playerSprite.sayText("I need to recycle this bottle", 2000, false)
 scene.cameraFollowSprite(playerSprite)
 playerSprite.ay = 500
 // wow speed
@@ -98,6 +221,15 @@ game.onUpdateInterval(10, function () {
         windspeed = 0
     }
     playerSprite.x += windspeed
+})
+game.onUpdateInterval(1, function () {
+    if (cyoteTimer > 0) {
+        cyoteTimer += 0 - 1
+    }
+    if (playerSprite.isHittingTile(CollisionDirection.Bottom)) {
+        cyoteTimer = 7
+        canJump = true
+    }
 })
 game.onUpdateInterval(200, function () {
     if (playerSprite.vx < 0) {
