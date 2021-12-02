@@ -1,9 +1,13 @@
 namespace SpriteKind {
     export const effect = SpriteKind.create()
+    export const breakable = SpriteKind.create()
 }
+scene.onOverlapTile(SpriteKind.Projectile, assets.tile`brakeable block`, function (sprite, location) {
+    tiles.setWallAt(location, false)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    sprite.destroy()
+})
 function jumping (sprite: Sprite) {
-    playerSprite.vy = -200
-    canJump = false
     jumpEffect = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -114,6 +118,8 @@ function jumping (sprite: Sprite) {
     100,
     false
     )
+    playerSprite.vy = -200
+    canJump = false
     pause(500)
     jumpEffect.destroy()
 }
@@ -194,12 +200,17 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
 })
+function place_breakable_blocks () {
+    for (let value of tiles.getTilesByType(assets.tile`brakeable block`)) {
+        tiles.setWallAt(value, true)
+    }
+}
 let windspeed = 0
 let cyoteTimer = 0
-let projectile: Sprite = null
 let down = false
 let up = false
 let jumpEffect: Sprite = null
+let projectile: Sprite = null
 let playerSprite: Sprite = null
 let horizontal = ""
 let canJump = false
@@ -208,12 +219,38 @@ horizontal = "right"
 tiles.setTilemap(tilemap`level2`)
 scene.setBackgroundColor(9)
 playerSprite = sprites.create(assets.image`characterright0`, SpriteKind.Player)
-tiles.placeOnTile(playerSprite, tiles.getTileLocation(1, 15))
-playerSprite.sayText("I need to recycle this bottle", 2000, false)
+projectile = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Projectile)
 scene.cameraFollowSprite(playerSprite)
-playerSprite.ay = 500
+tiles.placeOnTile(playerSprite, tiles.getTileLocation(1, 15))
 // wow speed
 controller.moveSprite(playerSprite, 120, 0)
+playerSprite.sayText("I need to recycle this bottle", 2000, false)
+playerSprite.ay = 500
+place_breakable_blocks()
+game.onUpdate(function () {
+    if (projectile.tileKindAt(TileDirection.Left, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Right, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Top, assets.tile`brakeable block`)) {
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
+    } else {
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, false)
+    }
+})
 game.onUpdateInterval(10, function () {
     if (playerSprite.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
         windspeed = 0.7

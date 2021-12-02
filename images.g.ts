@@ -3,25 +3,6 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "image1":
-            case "fumo":return img`
-. . . . . . . . . . . . . . . 
-. . . f f f . . . f f f . . . 
-. . f 8 8 8 f . f 8 8 8 f . . 
-. . f 8 8 8 8 f 8 8 8 8 f . . 
-. f f f 8 9 9 9 9 9 8 f f f . 
-. f 8 8 9 9 9 9 9 9 9 8 8 f . 
-. f 8 9 9 4 9 9 4 9 9 9 8 f . 
-. . f 9 9 4 4 9 4 4 9 9 f . . 
-. . f 9 f 1 8 4 1 8 f 9 f . . 
-. . f 6 9 8 8 4 8 8 9 6 f . . 
-. . . f 6 9 4 4 4 9 6 f . . . 
-. . . . f 8 2 1 2 8 f . . . . 
-. . . f 4 f 8 8 8 f 4 f . . . 
-. . f 4 8 8 8 8 8 8 8 4 f . . 
-. . f 1 8 9 9 8 9 9 8 1 f . . 
-. . . f 1 6 9 1 9 6 1 f . . . 
-`;
             case "image9":
             case "characterleft3":return img`
 ........................
@@ -210,6 +191,44 @@ namespace myImages {
 ........................
 ........................
 ........................
+`;
+            case "image1":
+            case "fumo":return img`
+. . . . . . . . . . . . . . . 
+. . . f f f . . . f f f . . . 
+. . f 8 8 8 f . f 8 8 8 f . . 
+. . f 8 8 8 8 f 8 8 8 8 f . . 
+. f f f 8 9 9 9 9 9 8 f f f . 
+. f 8 8 9 9 9 9 9 9 9 8 8 f . 
+. f 8 9 9 4 9 9 4 9 9 9 8 f . 
+. . f 9 9 4 4 9 4 4 9 9 f . . 
+. . f 9 f 1 8 4 1 8 f 9 f . . 
+. . f 6 9 8 8 4 8 8 9 6 f . . 
+. . . f 6 9 4 4 4 9 6 f . . . 
+. . . . f 8 2 1 2 8 f . . . . 
+. . . f 4 f 8 8 8 f 4 f . . . 
+. . f 4 8 8 8 8 8 8 8 4 f . . 
+. . f 1 8 9 9 8 9 9 8 1 f . . 
+. . . f 1 6 9 1 9 6 1 f . . . 
+`;
+            case "image3":
+            case "break tile":return img`
+. e e e e e e e e e e e e e e . 
+e d d d d d d d d d d d d d d e 
+e d d d d d d d d d d d e d d e 
+e d d d d d d d d d d e d e d e 
+e d d d d d d d d d d d e d d e 
+e d d d d 1 d d d d d d d d d e 
+e d d d d d d d d d d d d d d e 
+e d d d d d d d d d d d d d d e 
+e d d d d d d d d d d d d d d e 
+e d d d d d d d d d d d d d d e 
+e d e e d d d d d d d d d d d e 
+e e d d e d d d d d d d d d d e 
+e e d d e d d d d d d d d d d e 
+e d e e d d d d d d d d d 1 d e 
+e d d d d d d d d d d d d d d e 
+. e e e e e e e e e e e e e e . 
 `;
         }
         return null;
