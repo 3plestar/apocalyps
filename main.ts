@@ -76,8 +76,8 @@ function jumping (sprite: Sprite) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
         . 1 1 . . . . . . . . . . 1 1 . 
-        1 1 1 . . . . . . . . . . 1 1 1 
         1 1 1 1 . . . . . . . . 1 1 1 1 
         . 1 1 1 1 . . . . . . 1 1 1 1 . 
         . . . . . . . . . . . . . . . . 
@@ -91,11 +91,11 @@ function jumping (sprite: Sprite) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . 1 . . 
-        1 . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
         . 1 1 . . . . . . . . . . 1 1 . 
         1 1 1 . . . . . . . . . . 1 1 1 
-        1 1 . . . . . . . . . . . . 1 1 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `,img`
@@ -107,27 +107,33 @@ function jumping (sprite: Sprite) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . 1 . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . 1 . . 
-        1 . . 1 . . . . . . . . . . . . 
-        . . . . . . . . . . . . 1 . . 1 
         . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . 1 1 . . . . . . . . 1 1 . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `],
-    100,
+    50,
     false
     )
     playerSprite.vy = -200
     canJump = false
-    pause(500)
-    jumpEffect.destroy()
+    jumpEffect.lifespan = 290
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     up = true
+    animation.stopAnimation(animation.AnimationTypes.All, playerSprite)
+    if (horizontal == "left") {
+        playerSprite.setImage(assets.image`characterleft2`)
+    } else if (horizontal == "right") {
+        playerSprite.setImage(assets.image`characterright1`)
+    }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    let down = false
     if (horizontal == "left" && up == false && down == false) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -196,14 +202,141 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    horizontal = "left"
+    playerSprite.setImage(assets.image`characterleft1`)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    horizontal = "right"
+    playerSprite.setImage(assets.image`characterright0`)
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
+    if (horizontal == "left") {
+        playerSprite.setImage(assets.image`characterleft1`)
+    } else if (horizontal == "right") {
+        playerSprite.setImage(assets.image`characterright0`)
+    }
 })
+function running (sprite: Sprite) {
+    walkEffect = sprites.create(assets.image`walk cloud`, SpriteKind.effect)
+    walkEffect.setPosition(sprite.x, sprite.y + 1)
+    if (playerSprite.vx < 0) {
+        animation.runImageAnimation(
+        walkEffect,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . 1 1 
+            . . . . . . . . . . . . . 1 1 1 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . 1 1 
+            . . . . . . . . . . . . . . 1 1 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 1 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `],
+        110,
+        false
+        )
+    } else if (playerSprite.vx > 0) {
+        animation.runImageAnimation(
+        walkEffect,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 1 . . . . . . . . . . . . . . 
+            1 1 1 . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 1 . . . . . . . . . . . . . . 
+            1 1 . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `],
+        110,
+        false
+        )
+    }
+    walkEffect.lifespan = 260
+}
 function place_breakable_blocks () {
     for (let value of tiles.getTilesByType(assets.tile`brakeable block`)) {
         tiles.setWallAt(value, true)
@@ -218,8 +351,8 @@ function place_fumo () {
 }
 let windspeed = 0
 let fumo: Sprite = null
+let walkEffect: Sprite = null
 let cyoteTimer = 0
-let down = false
 let up = false
 let jumpEffect: Sprite = null
 let projectile: Sprite = null
@@ -258,21 +391,6 @@ playerSprite.ay = 500
 place_breakable_blocks()
 place_fumo()
 game.onUpdate(function () {
-    if (projectile.tileKindAt(TileDirection.Left, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Right, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Top, assets.tile`brakeable block`)) {
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
-    } else {
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, false)
-    }
-})
-game.onUpdateInterval(10, function () {
-    if (playerSprite.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
-        windspeed = 0.5
-    } else {
-        windspeed = 0
-    }
-    playerSprite.x += windspeed
-})
-game.onUpdateInterval(1, function () {
     if (cyoteTimer > 0) {
         cyoteTimer += 0 - 1
     }
@@ -280,8 +398,46 @@ game.onUpdateInterval(1, function () {
         cyoteTimer = 7
         canJump = true
     }
+    if (playerSprite.vx < 0) {
+        horizontal = "left"
+    } else if (playerSprite.vx > 0) {
+        horizontal = "right"
+    } else {
+        animation.stopAnimation(animation.AnimationTypes.All, playerSprite)
+        if (horizontal == "left") {
+            if (up) {
+                playerSprite.setImage(assets.image`characterleft2`)
+            } else {
+                playerSprite.setImage(assets.image`characterleft1`)
+            }
+        } else if (horizontal == "right") {
+            if (up) {
+                playerSprite.setImage(assets.image`characterright1`)
+            } else {
+                playerSprite.setImage(assets.image`characterright0`)
+            }
+        }
+    }
+})
+game.onUpdate(function () {
+    if (projectile.tileKindAt(TileDirection.Left, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Right, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Top, assets.tile`brakeable block`)) {
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
+    } else {
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, false)
+    }
+    if (playerSprite.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
+        windspeed = 2
+    } else {
+        windspeed = 0
+    }
+    playerSprite.x += windspeed
 })
 game.onUpdateInterval(200, function () {
+    if (playerSprite.vx != 0) {
+        if (playerSprite.isHittingTile(CollisionDirection.Bottom)) {
+            running(playerSprite)
+        }
+    }
     if (playerSprite.vx < 0) {
         if (up) {
             animation.runImageAnimation(
@@ -313,19 +469,6 @@ game.onUpdateInterval(200, function () {
             100,
             true
             )
-        }
-    } else {
-        animation.stopAnimation(animation.AnimationTypes.All, playerSprite)
-        if (horizontal == "left" && up == false && down == false) {
-            playerSprite.setImage(assets.image`characterleft1`)
-        } else if (horizontal == "right" && up == false && down == false) {
-            playerSprite.setImage(assets.image`characterright0`)
-        } else if (up == true) {
-            if (horizontal == "left") {
-                playerSprite.setImage(assets.image`characterleft2`)
-            } else if (horizontal == "right") {
-                playerSprite.setImage(assets.image`characterright1`)
-            }
         }
     }
 })

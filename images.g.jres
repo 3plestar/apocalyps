@@ -44,6 +44,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "characterright"
     },
+    "image10": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "walk cloud"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
