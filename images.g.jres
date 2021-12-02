@@ -29,11 +29,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "characterright2"
     },
-    "image2": {
-        "data": "hwQYABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/w8AAAAAAAAAAADwiA8AAAAAAAAAAADAiP//AEAEAAAA8P/P/5mZD94EAAAAj4j/mZmW9tT/AAAAj8ifmfbdaf/cDwAA8MifafSBnYiRBgAAAP+ZafSITYiRBgAAAPCZRm3dTYIYDwAAAPCZmWndTYIYDwAAAP+ZmfaBTYiRBgAA8MifafSInYiRBgAAj8ifmfndaf/cDwAAj4j/mZmW9tT/AAAA8P/P/5mZD94EAAAAAADAiP//AEAEAAAAAADwiA8AAAAAAAAAAAAA/w8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "characterright"
-    },
     "image1": {
         "data": "hwQPABAAAAAAAAAAAAAAAAAA/w8AAAAAAP+P+P8A8A/wiI+ZaQ9P8fCImJmf9oQY8IiZRIGJj2kAj5lJiCSImQDwmZlEFIgYAI+ZRIEkiJnwiJlJiImPafCImJmf9oQY8IiPmWkPT/EA/4/4/wDwDwAA/w8AAAAAAAAAAAAAAAA=",
         "mimeType": "image/x-mkcd-f4",
@@ -43,6 +38,11 @@
         "data": "hwQQABAAAADg7u7u7u7uDt7d3d3d7d7t3t3d3d3e7e3e3d3d3d7t7d7d3d3d7d7t3t0d3d3d3e3e3d3d3d3d7d7d3d3d3d3t3t3d3d3d3e3e3d3d3d3d7d7d3d3d3d3t3u3d3d3d3e3e3t7d3d3d7d7t3d3d3R3t3t3d3d3d3e3g7u7u7u7uDg==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "break tile"
+    },
+    "image2": {
+        "data": "hwQYABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw/wAAAAAAAAAAAADwiA8AAAAAAAAAAADAiP//AEAEAAAA8P/P/5mZD94EAAAAj4j/mZmW9tT/AAAAj8ifmfbdaf/cDwAA8MifafSBnYiRBgAAAP+ZafSITYiRBgAAAPCZRm3dTYIYDwAAAPCZmWndTYIYDwAAAP+ZmfaBTYiRBgAA8MifafSInYiRBgAAj8ifmfndaf/cDwAAj4j/mZmW9tT/AAAA8P/P/5mZD94EAAAAAADAiP//AEAEAAAAAADwiA8AAAAAAAAAAADw/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "characterright"
     },
     "anim1": {
         "namespace": "myAnimations",

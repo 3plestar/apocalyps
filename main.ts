@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const effect = SpriteKind.create()
     export const breakable = SpriteKind.create()
+    export const fumo = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Projectile, assets.tile`brakeable block`, function (sprite, location) {
     tiles.setWallAt(location, false)
@@ -134,6 +135,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             . . . 6 6 6 . . . . . . . . . . 
             . . 6 1 1 1 6 6 . . . . . . . . 
             . 6 9 9 9 9 1 1 6 6 . . . . . . 
@@ -142,12 +146,13 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . 6 9 9 9 6 6 . . . . . . . . 
             . . . 6 6 6 . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
             `, playerSprite, -170, 0)
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     } else if (horizontal == "right" && up == false && down == false) {
         projectile = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -161,10 +166,8 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . 6 6 9 9 9 6 . . 
             . . . . . . . . . . 6 6 6 . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
             `, playerSprite, 170, 0)
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     } else if (up == true) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -184,6 +187,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, playerSprite, 0, -170)
+        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -205,7 +209,15 @@ function place_breakable_blocks () {
         tiles.setWallAt(value, true)
     }
 }
+function place_fumo () {
+    for (let fumoValue of tiles.getTilesByType(assets.tile`myTile6`)) {
+        fumo = sprites.create(assets.image`characterright`, SpriteKind.fumo)
+        tiles.placeOnTile(fumo, fumoValue)
+        tiles.setWallAt(fumoValue, true)
+    }
+}
 let windspeed = 0
+let fumo: Sprite = null
 let cyoteTimer = 0
 let down = false
 let up = false
@@ -244,6 +256,7 @@ controller.moveSprite(playerSprite, 120, 0)
 playerSprite.sayText("I need to recycle this bottle", 2000, false)
 playerSprite.ay = 500
 place_breakable_blocks()
+place_fumo()
 game.onUpdate(function () {
     if (projectile.tileKindAt(TileDirection.Left, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Right, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Top, assets.tile`brakeable block`)) {
         projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
@@ -253,7 +266,7 @@ game.onUpdate(function () {
 })
 game.onUpdateInterval(10, function () {
     if (playerSprite.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
-        windspeed = 0.7
+        windspeed = 0.5
     } else {
         windspeed = 0
     }
