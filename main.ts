@@ -403,7 +403,7 @@ game.onUpdate(function () {
         cyoteTimer += 0 - 1
     }
     if (playerSprite.isHittingTile(CollisionDirection.Bottom)) {
-        cyoteTimer = 7
+        cyoteTimer = 6
         canJump = true
     }
     if (playerSprite.vx < 0) {
