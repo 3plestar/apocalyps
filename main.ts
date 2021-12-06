@@ -202,10 +202,18 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    playerSprite.setImage(assets.image`characterleft1`)
+    if (up) {
+        playerSprite.setImage(assets.image`characterleft2`)
+    } else {
+        playerSprite.setImage(assets.image`characterleft1`)
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    playerSprite.setImage(assets.image`characterright0`)
+    if (up) {
+        playerSprite.setImage(assets.image`characterright1`)
+    } else {
+        playerSprite.setImage(assets.image`characterright0`)
+    }
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
