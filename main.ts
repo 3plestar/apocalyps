@@ -6,6 +6,18 @@ namespace SpriteKind {
     export const spawner = SpriteKind.create()
     export const rain = SpriteKind.create()
 }
+function place_special_blocks () {
+    for (let value of tiles.getTilesByType(assets.tile`brakeable block`)) {
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile53`)) {
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile51`)) {
+        tiles.setWallAt(value, true)
+    }
+    block_on()
+}
 function jumping (sprite: Sprite) {
     jumpEffect = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -247,6 +259,19 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         horizontal = "right"
     }
 })
+function block_on () {
+    for (let value of tiles.getTilesByType(assets.tile`myTile54`)) {
+        tiles.setTileAt(value, assets.tile`myTile55`)
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile57`)) {
+        tiles.setTileAt(value, assets.tile`myTile56`)
+        tiles.setWallAt(value, false)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile53`)) {
+        tiles.setTileAt(value, assets.tile`myTile51`)
+    }
+}
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
     if (horizontal == "left") {
@@ -387,20 +412,32 @@ scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
     if (tiles.tileAtLocationEquals(location, assets.tile`brakeable block`)) {
         tiles.setWallAt(location, false)
         tiles.setTileAt(location, assets.tile`transparency16`)
-        sprite.destroy()
+    }
+    if (tiles.tileAtLocationEquals(location, assets.tile`myTile53`)) {
+        block_on()
+    } else if (tiles.tileAtLocationEquals(location, assets.tile`myTile51`)) {
+        block_off()
     }
 })
+function block_off () {
+    for (let value of tiles.getTilesByType(assets.tile`myTile55`)) {
+        tiles.setTileAt(value, assets.tile`myTile54`)
+        tiles.setWallAt(value, false)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile56`)) {
+        tiles.setTileAt(value, assets.tile`myTile57`)
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile51`)) {
+        tiles.setTileAt(value, assets.tile`myTile53`)
+    }
+}
 function summon_water () {
     for (let watervalue of tiles.getTilesByType(assets.tile`myTile50`)) {
         waterSprite = sprites.create(assets.image`myImage`, SpriteKind.water)
         tiles.placeOnTile(waterSprite, watervalue)
         tiles.setTileAt(watervalue, assets.tile`transparency16`)
         waterSprite.vy = -10
-    }
-}
-function place_breakable_blocks () {
-    for (let value of tiles.getTilesByType(assets.tile`brakeable block`)) {
-        tiles.setWallAt(value, true)
     }
 }
 function place_fumo () {
@@ -936,7 +973,7 @@ function Initialize_Level (Level: number) {
     	
     }
     Place_Player()
-    place_breakable_blocks()
+    place_special_blocks()
     place_fumo()
     summon_water()
 }
