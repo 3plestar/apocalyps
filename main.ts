@@ -4,6 +4,7 @@ namespace SpriteKind {
     export const fumo = SpriteKind.create()
     export const water = SpriteKind.create()
     export const spawner = SpriteKind.create()
+    export const rain = SpriteKind.create()
 }
 function jumping (sprite: Sprite) {
     jumpEffect = sprites.create(img`
@@ -138,8 +139,7 @@ function clear_level () {
     }
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    let down = false
-    if (horizontal == "left" && up == false && down == false) {
+    if (horizontal == "left" && up == false) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -158,7 +158,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . 6 6 6 . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, playerSprite, -170, 0)
-    } else if (horizontal == "right" && up == false && down == false) {
+    } else if (horizontal == "right" && up == false) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -205,33 +205,47 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function acid_rain () {
     for (let value6 of tiles.getTilesByType(assets.tile`myTile43`)) {
-        acidRain = sprites.createProjectileFromSide(img`
-            . . . . . . . . . . . 7 . . . . 
-            . . 7 . . . . . . . . 7 . . . . 
-            . . 7 . . . . . 5 . . 7 . . . . 
-            . . 7 . . . . . 5 . . 7 . . . . 
-            . . 7 . . . . . 5 . . 7 . . . . 
-            . . 7 . . . . . 5 . . 7 . . . . 
-            . . 7 . . . 7 . . . . 7 . . . . 
-            5 . 7 . . . 7 . . . . . . . . . 
-            5 . 7 . . . 7 . . . . 7 . . . . 
-            5 . . . . . 7 . . . . . . . . . 
-            5 . . . . . 7 . . . . . . . . . 
+        acidRain = sprites.create(img`
+            7 . . . . . . . . . . . . . . . 
+            7 . . . . . . . . . . . . . . . 
+            7 . . . 5 . . . . . . . 7 . . . 
+            7 . . . 5 . . . . . . . 7 . . . 
+            7 . . . . . . . . . . . 7 . . . 
+            7 . . . . . . . . . . . 7 . . . 
+            7 . . . . . . . . . . . 7 . . . 
+            7 . . . . . . . . . . . 7 . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             . . . . . . 7 . . . . . . . . . 
             . . . . . . 7 . . . . . . . . . 
-            . . . . . . 7 . . . . . . . . . 
-            . . . . . . . . . . . 7 . . . . 
-            . . . . . . . . . . . 7 . . . . 
-            `, 0, 150)
+            . . . . . . 7 . . . 5 . . . . . 
+            . . . . . . 7 . . . 5 . . . 7 . 
+            . . . . . . . . . . . . . . 7 . 
+            . . . . . . . . . . . . . . 7 . 
+            `, SpriteKind.rain)
         tiles.placeOnTile(acidRain, value6)
+        acidRain.setVelocity(0, 100)
+        acidRain.setFlag(SpriteFlag.DestroyOnWall, true)
         acidRain.setFlag(SpriteFlag.AutoDestroy, false)
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    playerSprite.setImage(assets.image`characterleft1`)
+    if (playerSprite.vx <= 0 && up == false) {
+        playerSprite.setImage(assets.image`characterleft1`)
+        horizontal = "left"
+    } else if (playerSprite.vx <= 0) {
+        playerSprite.setImage(assets.image`characterleft2`)
+        horizontal = "left"
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    playerSprite.setImage(assets.image`characterright0`)
+    if (playerSprite.vx >= 0 && up == false) {
+        playerSprite.setImage(assets.image`characterright0`)
+        horizontal = "right"
+    } else if (playerSprite.vx >= 0) {
+        playerSprite.setImage(assets.image`characterright1`)
+        horizontal = "right"
+    }
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
@@ -1007,9 +1021,6 @@ game.onUpdate(function () {
     }
     playerSprite.x += windspeed
 })
-game.onUpdateInterval(100, function () {
-    acid_rain()
-})
 game.onUpdateInterval(200, function () {
     if (playerSprite.vx != 0) {
         if (playerSprite.isHittingTile(CollisionDirection.Bottom)) {
@@ -1049,4 +1060,7 @@ game.onUpdateInterval(200, function () {
             )
         }
     }
+})
+game.onUpdateInterval(200, function () {
+    acid_rain()
 })
