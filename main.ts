@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const effect = SpriteKind.create()
     export const breakable = SpriteKind.create()
     export const fumo = SpriteKind.create()
+    export const water = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Projectile, assets.tile`brakeable block`, function (sprite, location) {
     tiles.setWallAt(location, false)
@@ -347,6 +348,14 @@ function running (sprite: Sprite) {
         )
     }
     walkEffect.lifespan = 260
+}
+function summon_water () {
+    for (let watervalue of tiles.getTilesByType(assets.tile`myTile50`)) {
+        waterSprite = sprites.create(assets.image`myImage`, SpriteKind.water)
+        tiles.placeOnTile(waterSprite, watervalue)
+        tiles.setTileAt(watervalue, assets.tile`transparency16`)
+        waterSprite.vy = -10
+    }
 }
 function place_breakable_blocks () {
     for (let value of tiles.getTilesByType(assets.tile`brakeable block`)) {
@@ -879,7 +888,6 @@ function Initialize_Level (Level: number) {
             7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
             `)
         scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyVertical)
-        scroller.setBackgroundScrollOffset(0, 260)
         playerSprite.sayText("I need to recycle this bottle", 2000, false)
     } else if (Level == 1) {
         tiles.setTilemap(tilemap`level6`)
@@ -889,6 +897,7 @@ function Initialize_Level (Level: number) {
     Place_Player()
     place_breakable_blocks()
     place_fumo()
+    summon_water()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile30`, function (sprite, location) {
     level += 1
@@ -896,6 +905,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile30`, function (sprite, 
 })
 let windspeed = 0
 let fumo: Sprite = null
+let waterSprite: Sprite = null
 let walkEffect: Sprite = null
 let cyoteTimer = 0
 let up = false
