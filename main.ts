@@ -3,12 +3,8 @@ namespace SpriteKind {
     export const breakable = SpriteKind.create()
     export const fumo = SpriteKind.create()
     export const water = SpriteKind.create()
+    export const spawner = SpriteKind.create()
 }
-scene.onOverlapTile(SpriteKind.Projectile, assets.tile`brakeable block`, function (sprite, location) {
-    tiles.setWallAt(location, false)
-    tiles.setTileAt(location, assets.tile`transparency16`)
-    sprite.destroy()
-})
 function jumping (sprite: Sprite) {
     jumpEffect = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -137,6 +133,9 @@ function clear_level () {
     for (let value3 of sprites.allOfKind(SpriteKind.fumo)) {
         value3.destroy()
     }
+    for (let value3 of sprites.allOfKind(SpriteKind.water)) {
+        value3.destroy()
+    }
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     let down = false
@@ -159,7 +158,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . 6 6 6 . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, playerSprite, -170, 0)
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     } else if (horizontal == "right" && up == false && down == false) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -179,7 +177,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . 6 6 6 . . . 
             . . . . . . . . . . . . . . . . 
             `, playerSprite, 170, 0)
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     } else if (up == true) {
         projectile = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -199,7 +196,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, playerSprite, 0, -170)
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -207,6 +203,30 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         jumping(playerSprite)
     }
 })
+function acid_rain () {
+    for (let value6 of tiles.getTilesByType(assets.tile`myTile43`)) {
+        acidRain = sprites.createProjectileFromSide(img`
+            . . . . . . . . . . . 7 . . . . 
+            . . 7 . . . . . . . . 7 . . . . 
+            . . 7 . . . . . 5 . . 7 . . . . 
+            . . 7 . . . . . 5 . . 7 . . . . 
+            . . 7 . . . . . 5 . . 7 . . . . 
+            . . 7 . . . . . 5 . . 7 . . . . 
+            . . 7 . . . 7 . . . . 7 . . . . 
+            5 . 7 . . . 7 . . . . . . . . . 
+            5 . 7 . . . 7 . . . . 7 . . . . 
+            5 . . . . . 7 . . . . . . . . . 
+            5 . . . . . 7 . . . . . . . . . 
+            . . . . . . 7 . . . . . . . . . 
+            . . . . . . 7 . . . . . . . . . 
+            . . . . . . 7 . . . . . . . . . 
+            . . . . . . . . . . . 7 . . . . 
+            . . . . . . . . . . . 7 . . . . 
+            `, 0, 150)
+        tiles.placeOnTile(acidRain, value6)
+        acidRain.setFlag(SpriteFlag.AutoDestroy, false)
+    }
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     playerSprite.setImage(assets.image`characterleft1`)
 })
@@ -349,6 +369,13 @@ function running (sprite: Sprite) {
     }
     walkEffect.lifespan = 260
 }
+scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
+    if (tiles.tileAtLocationEquals(location, assets.tile`brakeable block`)) {
+        tiles.setWallAt(location, false)
+        tiles.setTileAt(location, assets.tile`transparency16`)
+        sprite.destroy()
+    }
+})
 function summon_water () {
     for (let watervalue of tiles.getTilesByType(assets.tile`myTile50`)) {
         waterSprite = sprites.create(assets.image`myImage`, SpriteKind.water)
@@ -907,6 +934,7 @@ let windspeed = 0
 let fumo: Sprite = null
 let waterSprite: Sprite = null
 let walkEffect: Sprite = null
+let acidRain: Sprite = null
 let cyoteTimer = 0
 let up = false
 let jumpEffect: Sprite = null
@@ -972,17 +1000,15 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (projectile.tileKindAt(TileDirection.Left, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Right, assets.tile`brakeable block`) || projectile.tileKindAt(TileDirection.Top, assets.tile`brakeable block`)) {
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, true)
-    } else {
-        projectile.setFlag(SpriteFlag.GhostThroughWalls, false)
-    }
     if (playerSprite.tileKindAt(TileDirection.Center, assets.tile`myTile0`)) {
         windspeed = 2
     } else {
         windspeed = 0
     }
     playerSprite.x += windspeed
+})
+game.onUpdateInterval(100, function () {
+    acid_rain()
 })
 game.onUpdateInterval(200, function () {
     if (playerSprite.vx != 0) {
