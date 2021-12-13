@@ -132,6 +132,11 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         playerSprite.setImage(assets.image`characterright1`)
     }
 })
+function clear_level () {
+    for (let value3 of sprites.allOfKind(SpriteKind.fumo)) {
+        value3.destroy()
+    }
+}
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     let down = false
     if (horizontal == "left" && up == false && down == false) {
@@ -356,6 +361,7 @@ function place_fumo () {
     }
 }
 function Initialize_Level (Level: number) {
+    clear_level()
     if (Level == 0) {
         tiles.setTilemap(tilemap`level0`)
         scene.setBackgroundImage(img`
@@ -874,7 +880,6 @@ function Initialize_Level (Level: number) {
             `)
         scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyVertical)
         scroller.setBackgroundScrollOffset(0, 260)
-        tiles.placeOnTile(playerSprite, tiles.getTileLocation(1, 15))
         playerSprite.sayText("I need to recycle this bottle", 2000, false)
     } else if (Level == 1) {
         tiles.setTilemap(tilemap`level6`)
