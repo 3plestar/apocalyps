@@ -273,7 +273,7 @@ function block_on () {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.water, function (sprite, otherSprite) {
-    info.setLife(0)
+    dead()
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     up = false
@@ -284,7 +284,7 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.rain, function (sprite, otherSprite) {
-    info.setLife(0)
+    dead()
 })
 function Place_Player () {
     for (let value of tiles.getTilesByType(assets.tile`myTile26`)) {
@@ -292,11 +292,6 @@ function Place_Player () {
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
 }
-info.onLifeZero(function () {
-    game.showLongText("wow, sad", DialogLayout.Center)
-    Initialize_Level(level)
-    info.setLife(3)
-})
 function running (sprite: Sprite) {
     walkEffect = sprites.create(assets.image`walk cloud`, SpriteKind.effect)
     walkEffect.setPosition(sprite.x, sprite.y + 1)
@@ -430,6 +425,12 @@ scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
         block_off()
     }
 })
+function dead () {
+    playerSprite.setFlag(SpriteFlag.Ghost, true)
+    game.splash("wow, sad")
+    Initialize_Level(level)
+    playerSprite.setFlag(SpriteFlag.Ghost, false)
+}
 function block_off () {
     for (let value of tiles.getTilesByType(assets.tile`myTile55`)) {
         tiles.setTileAt(value, assets.tile`myTile54`)
@@ -1027,7 +1028,6 @@ projectile = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Projectile)
 level = 0
-info.setLife(3)
 scene.cameraFollowSprite(playerSprite)
 // wow speed
 controller.moveSprite(playerSprite, 120, 0)
